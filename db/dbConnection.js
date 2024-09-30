@@ -44,6 +44,9 @@ db.transactions = require("../models/transactionModel.js")(
   sequelize,
   Sequelize
 );
+db.brandings = require("../models/branding.model.js")(sequelize,Sequelize)
+db.campaigns = require("../models/campaign.model.js")(sequelize,Sequelize)
+db.clients = require("../models/client.model.js")(sequelize,Sequelize)
 
 // Relationships
 db.products.hasMany(db.subscriptionPlans, { as: "subscriptionPlans" });
@@ -72,5 +75,11 @@ db.transactions.belongsTo(db.orders, {
   foreignKey: "orderId",
   as: "order",
 });
+
+db.brandings.belongsTo(db.customers , { foreignKey: "customerId", as: "customer",})
+db.customers.hasMany(db.campaigns , {as: "campaigns"})
+db.campaigns.belongsTo(db.customers , {foreignKey: "customerId" , as: "customer"})
+db.customers.hasMany(db.clients , {as: "clients"})
+db.clients.belongsTo(db.customers , {foreignKey: "customerId" , as: "customer"})
 
 module.exports = db;

@@ -4,18 +4,22 @@ const Customer = db.customers;
 const dotenv = require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
+console.log("jwt_secret", JWT_SECRET)
+
 //authentication
-const authenticate = function (req, res, next) {
+const authenticate = async function (req, res, next) {
   try {
-    console.log("Cookies:", req.cookies);
-    console.log("headers", req.headers);
+    // console.log("Cookies:", req.cookies);
+    // console.log("headers", req.headers);
     
-    let token = req.cookies?.access_token;
+    let token = req.cookies?.access_token
 
     // Check if token is in Authorization header if not in cookies
     if (!token && req.headers.authorization) {
       token = req.headers.authorization.split(" ")[1];
     }
+
+    console.log(token)
 
     // Check if token is in query parameters
     if (!token && req.query.token) {
